@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    <div class="signup-login">
+        <div class="signup-box">
+
+            <!-- ✅ Simple and clean message (no layout break) -->
+            {% if messages %}
+                {% for message in messages %}
+                    <small style="display:block; text-align:center; color:{% if message.tags == 'error' %}#e74c3c{% else %}#27ae60{% endif %}; font-size:13px; margin-bottom:4px;">
+                        {{ message }}
+                    </small>
+                {% endfor %}
+            {% endif %}
+            <!-- ✅ End -->
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="heading">Signup</div>
+                <div class="line"></div>
+
+                <div class="field">
+                    <b>Username</b>
+                    <input type="text" required class="inp" placeholder="Enter your username" name="fnm">
+                </div>
+                <div class="field">
+                    <b>Email</b>
+                    <input type="email" required class="inp" name="email">
+                </div>
+                <div class="field">
+                    <b>Password</b>
+                    <input type="password" required class="inp" name="pwd">
+                </div>
+                <div class="field">
+                    <input type="submit" value="Signup" class="submit-button">
+                </div>
+
+                <div class="line"></div>
+
+                <div class="field">
+                    <b style="margin-left:130px;">Already have an account?</b>
+                    <br>
+                    <a class="anc"href="/login">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

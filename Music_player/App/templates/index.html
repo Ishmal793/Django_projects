@@ -1,0 +1,66 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelementplayer.min.css"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+
+    <link rel="stylesheet" href="{% static '/style.css/' %}">
+
+
+</head>
+
+<body>
+    {% include 'main.html' %}
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelement-and-player.min.js">
+    </script>
+
+    <script src="{% static '/script.js' %}">
+    </script>
+
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('fc-media');
+            const lyricsContainer = document.getElementById('song-lyrics');
+            let currentLyricIndex = 0;
+
+            const lyricsData = JSON.parse(
+                document.getElementById('song-lyrics').getAttribute('data-lyrics')
+            );
+
+            audio.addEventListener('timeupdate', function () {
+                const currentTime = audio.currentTime;
+
+                while (
+                    currentLyricIndex < lyricsData.length - 1 &&
+                    currentTime >= timeToSeconds(lyricsData[currentLyricIndex + 1].time)
+                ) {
+                    currentLyricIndex++;
+                }
+
+                lyricsContainer.innerText = lyricsData[currentLyricIndex].lyrics;
+            });
+
+            function timeToSeconds(time) {
+                const [minutes, seconds] = time.split(':').map(parseFloat);
+                return minutes * 60 + seconds;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
